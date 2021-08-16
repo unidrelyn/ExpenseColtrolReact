@@ -1,9 +1,10 @@
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import Error from "./Error";
 
-const Formulario = () => {
+const Formulario = ({ setGasto, setCrearGasto }) => {
 	const [nombre, setNombre] = useState("");
-	const [cantidad, setCantidad] = useState(0);
+	const [cantidad, setCantidad] = useState("");
 	const [error, setError] = useState(false);
 
 	const agregarGasto = (e) => {
@@ -13,6 +14,18 @@ const Formulario = () => {
 			setError(true);
 			return;
 		}
+		setError(false);
+
+		const gasto = {
+			nombre,
+			cantidad,
+			id: Date.now(),
+		};
+
+		setGasto(gasto);
+		setCrearGasto(true);
+		setNombre("");
+		setCantidad("");
 	};
 
 	return (
@@ -30,7 +43,7 @@ const Formulario = () => {
 				/>
 			</div>
 			<div className="campo">
-				<label>setCantidad Gasto</label>
+				<label>Gasto</label>
 				<input
 					type="number"
 					className="u-full-width"
@@ -46,6 +59,11 @@ const Formulario = () => {
 			/>
 		</form>
 	);
+};
+
+Formulario.propTypes = {
+	setGasto: PropTypes.func.isRequired,
+	setCrearGasto: PropTypes.func.isRequired,
 };
 
 export default Formulario;
